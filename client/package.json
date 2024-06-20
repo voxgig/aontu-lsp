@@ -20,5 +20,8 @@
 	"scripts": {},
 	"devDependencies": {
 		"@types/vscode": "^1.73.0"
+	},
+	"dependencies": {
+		"vscode-languageclient": "9.0.1"
 	}
 }
