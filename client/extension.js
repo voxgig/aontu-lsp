@@ -17,9 +17,9 @@ let client
  */
 function activate(ctx) {
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	console.log('qwerty qwerty')
+	console.log('Aontu client extension active')
 	// Display a message box to the user
-	VSCode.window.showInformationMessage('Hello QWERTY')
+	VSCode.window.showInformationMessage('Activating the Aontu language client extension...')
 
 	const server_path = ctx.asAbsolutePath('server/index.js')
 
@@ -44,13 +44,15 @@ function activate(ctx) {
 	}
 
 	client = new VSCLangClient.LanguageClient(
-		'languageServerExample',
-		'Language Server Example',
+		'aontuLanguageServer',
+		'Aontu Language Server',
 		server_opts,
 		client_opts
 	)
 
 	client.start()
+
+	VSCode.window.showInformationMessage('The Aontu language client extension - active.')
 }
 
 

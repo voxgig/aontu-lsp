@@ -1,5 +1,5 @@
 {
-	"name": "aontu-server-client",
+	"name": "aontu-language-server",
 	"private": true,
 	"version": "0.0.1",
 	"main": "index.js",
