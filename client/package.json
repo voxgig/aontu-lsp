@@ -1,16 +1,13 @@
 {
-	"name": "helloworld-minimal-sample",
-	"description": "Minimal HelloWorld example for VS Code",
+	"name": "aontu-language-client",
+	"private": true,
 	"version": "0.0.1",
-	"publisher": "vscode-samples",
-	"repository": "https://github.com/Microsoft/vscode-extension-samples/helloworld-minimal-sample",
-	"engines": {
-		"vscode": "^1.74.0"
-	},
 	"main": "./extension.js",
-	"scripts": {},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
 	"devDependencies": {
-		"@types/vscode": "^1.73.0"
+		"@types/vscode": "1.73.0"
 	},
 	"dependencies": {
 		"vscode-languageclient": "9.0.1"

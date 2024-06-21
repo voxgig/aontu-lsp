@@ -1,38 +1,19 @@
 {
 	"name": "aontu-lsp",
-	"version": "1.0.0",
+	"private": true,
+	"version": "0.0.1",
 	"description": "Aontu LSP",
 	"main": "./client/extension.js",
 	"engines": {
 		"vscode": "^1.74.0"
 	},
-	"dependencies": {
-		"balanced-match": "1.0.2",
-		"brace-expansion": "2.0.1",
-		"minimatch": "5.1.6",
-		"semver": "7.6.2",
-		"vscode-jsonrpc": "8.2.0",
-		"vscode-languageclient": "9.0.1",
-		"vscode-languageserver": "9.0.1",
-		"vscode-languageserver-protocol": "3.17.5",
-		"vscode-languageserver-types": "3.17.5"
-	},
+	"dependencies": {},
 	"devDependencies": {},
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
+	"scripts": {},
 	"keywords": [],
 	"author": "",
-	"license": "ISC",
+	"license": "MIT",
 	"activationEvents": [
 		"*"
-	],
-	"contributes": {
-		"commands": [
-			{
-				"command": "extension.helloWorld",
-				"title": "Hello World"
-			}
-		]
-	}
+	]
 }
