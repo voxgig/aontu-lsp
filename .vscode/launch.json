@@ -1,0 +1,12 @@
+{
+	"configurations": [
+		{
+			"type": "extensionHost",
+			"request": "launch",
+			"name": "Run the Aontu Language Client Extension",
+			"runtimeExecutable": "${execPath}",
+			"args": ["--extensionDevelopmentPath=${workspaceRoot}"],
+			"autoAttachChildProcesses": true
+		}
+	]
+}

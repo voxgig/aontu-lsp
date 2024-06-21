@@ -1,0 +1,19 @@
+{
+	"name": "aontu-lsp",
+	"private": true,
+	"version": "0.0.1",
+	"description": "Aontu LSP",
+	"main": "./client/extension.js",
+	"engines": {
+		"vscode": "^1.74.0"
+	},
+	"dependencies": {},
+	"devDependencies": {},
+	"scripts": {},
+	"keywords": [],
+	"author": "",
+	"license": "MIT",
+	"activationEvents": [
+		"*"
+	]
+}
