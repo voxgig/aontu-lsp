@@ -18,45 +18,45 @@ let client
 function activate(ctx) {
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	console.log('qwerty qwerty')
-	VSCode.window.showInformationMessage('Hello QWERTY Activating...')
+	// Display a message box to the user
+	VSCode.window.showInformationMessage('Hello QWERTY')
+
+	const server_path = ctx.asAbsolutePath('server/index.js')
+
+	// If the extension is launched in debug mode then the debug server options are used
+	// Otherwise the run options are used
+	const server_opts = {
+		run: { module: server_path, transport: VSCLangClient.TransportKind.ipc },
+		debug: {
+			module: server_path,
+			transport: VSCLangClient.TransportKind.ipc,
+		}
+	}
+
+	// Options to control the language client
+	const client_opts = {
+		// Register the server for plain text documents
+		documentSelector: [{ scheme: 'file', language: 'plaintext' }],
+		synchronize: {
+			// Notify the server about file changes to '.clientrc files contained in the workspace
+			fileEvents: VSCode.workspace.createFileSystemWatcher('**/.clientrc')
+		}
+	}
+
+	client = new VSCLangClient.LanguageClient(
+		'languageServerExample',
+		'Language Server Example',
+		server_opts,
+		client_opts
+	)
+
+	client.start()
 
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with  registerCommand
 	// The commandId parameter must match the command field in package.json
 	const disposable = VSCode.commands.registerCommand('extension.helloWorld', () => {
-		const server_path = ctx.asAbsolutePath('../server/index.js')
-
-		// If the extension is launched in debug mode then the debug server options are used
-		// Otherwise the run options are used
-		const server_opts = {
-			run: { module: server_path, transport: VSCLangClient.TransportKind.ipc },
-			debug: {
-				module: server_path,
-				transport: VSCLangClient.TransportKind.ipc,
-			}
-		}
-
-		// Options to control the language client
-		const client_opts = {
-			// Register the server for plain text documents
-			documentSelector: [{ scheme: 'file', language: 'plaintext' }],
-			synchronize: {
-				// Notify the server about file changes to '.clientrc files contained in the workspace
-				fileEvents: VSCode.workspace.createFileSystemWatcher('**/.clientrc')
-			}
-		}
-
-		client = new VSCLangClient.LanguageClient(
-			'languageServerExample',
-			'Language Server Example',
-			server_opts,
-			client_opts
-		)
-
-		client.start()
-
-		// Display a message box to the user
-		VSCode.window.showInformationMessage('Hello QWERTY')
+		VSCode.window.showInformationMessage('Hello QWERTY Activating...')
 	})
 
 	ctx.subscriptions.push(disposable)

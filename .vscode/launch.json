@@ -2,11 +2,12 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "Run Extension",
 			"type": "extensionHost",
 			"request": "launch",
+			"name": "Run the Language Client Extension",
 			"runtimeExecutable": "${execPath}",
-			"args": ["--extensionDevelopmentPath=${workspaceFolder}"]
+			"args": ["--extensionDevelopmentPath=${workspaceRoot}"],
+			"autoAttachChildProcesses": true
 		}
 	]
 }
