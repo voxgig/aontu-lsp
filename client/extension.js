@@ -1,7 +1,11 @@
 // The module 'vscode' contains the VS Code extensibility API
 const VSCode = require('vscode')
+const VSCLangClient = require('vscode-languageclient/node')
 const Path = require('path')
-const { LanguageClient } = require('vscode-languageclient/node')
+
+
+// NOTE: For reference, please see:
+// https://github.com/microsoft/vscode-extension-samples/blob/main/lsp-sample/client/src/extension.ts
 
 
 let client
@@ -21,16 +25,14 @@ function activate(ctx) {
 	// The commandId parameter must match the command field in package.json
 	const disposable = VSCode.commands.registerCommand('extension.helloWorld', () => {
 		const server_path = ctx.asAbsolutePath('../server/index.js')
-		console.dir(server_path) // dbg
 
 		// If the extension is launched in debug mode then the debug server options are used
 		// Otherwise the run options are used
 		const server_opts = {
-			// Register the server for plain text documents
-			documentSelector: [{ scheme: 'file', language: 'plaintext' }],
-			synchronize: {
-				// Notify the server about file changes to '.clientrc files contained in the workspace
-				fileEvents: VSCode.workspace.createFileSystemWatcher('**/.clientrc')
+			run: { module: server_path, transport: VSCLangClient.TransportKind.ipc },
+			debug: {
+				module: server_path,
+				transport: VSCLangClient.TransportKind.ipc,
 			}
 		}
 
@@ -44,7 +46,7 @@ function activate(ctx) {
 			}
 		}
 
-		client = new LanguageClient(
+		client = new VSCLangClient.LanguageClient(
 			'languageServerExample',
 			'Language Server Example',
 			server_opts,
@@ -55,7 +57,7 @@ function activate(ctx) {
 
 		// Display a message box to the user
 		VSCode.window.showInformationMessage('Hello QWERTY')
-	});
+	})
 
 	ctx.subscriptions.push(disposable)
 }
