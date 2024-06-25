@@ -1,0 +1,33 @@
+{
+	"name": "aontu-lsp",
+	"repository": "https://github.com/voxgig/aontu-lsp",
+	"private": true,
+	"version": "0.0.1",
+	"description": "Aontu LSP",
+	"engines": {
+		"vscode": "^1.74.0"
+	},
+	"dependencies": {},
+	"devDependencies": {},
+	"scripts": {
+		"package-extension": "npx @vscode/vsce package"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "MIT",
+	"contributes": {
+		"languages": [
+			{
+				"id": "aontu",
+				"extensions": [".aontu"]
+			}
+		],
+		"grammars": [
+				{
+				"language": "aontu",
+				"scopeName": "source.aontu",
+				"path": "./syntaxes/aontu.tmGrammar.json"
+			}
+		]
+	}
+}

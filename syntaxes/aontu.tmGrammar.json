@@ -1,0 +1,328 @@
+{
+	"scopeName": "source.aontu",
+	"patterns": [
+		{ "include": "#comments" },
+		{ "include": "#tuple" },
+		{ "include": "#array" },
+		{ "include": "#string" },
+		{ "include": "#invalid:expression-operator" },
+		{ "include": "#expression-operator" },
+		{ "include": "#field-identifier-label" },
+		{ "include": "#number" },
+		{ "include": "#punctuation" },
+		{ "include": "#keyword" },
+		{ "include": "#composite-identifier" },
+		{ "include": "#simple-identifier" },
+		{ "include": "#struct" }
+	],
+	"repository": {
+		"tuple": {
+			"comment": "E.g.:  (1, foo.bar)",
+			"begin": "\\(",
+			"beginCaptures": {
+				"0": {
+					"name": "meta.tuple.literal.aontu"
+				}
+			},
+			"end": "\\)",
+			"endCaptures": {
+				"0": {
+					"name": "meta.tuple.literal.aontu"
+				}
+			},
+			"patterns": [
+				{ "include": "#can-be-contained-by-tuple-or-array" }
+			]
+		},
+		"array": {
+			"comment": "E.g.:  [1, 2, 3]",
+			"begin": "\\[",
+			"beginCaptures": {
+				"0": {
+					"name": "meta.list.literal.aontu"
+				}
+			},
+			"end": "\\]",
+			"endCaptures": {
+				"0": {
+					"name": "meta.list.literal.aontu"
+				}
+			},
+			"patterns": [
+				{ "include": "#can-be-contained-by-tuple-or-array" }
+			]
+		},
+		"can-be-contained-by-tuple-or-array": {
+			"patterns": [
+				{ "include": "#comments" },
+				{ "include": "#tuple" },
+				{ "include": "#array" },
+				{ "include": "#string" },
+				{ "include": "#invalid:expression-operator" },
+				{ "include": "#expression-operator" },
+				{ "include": "#number" },
+				{ "include": "#punctuation" },
+				{ "include": "#keyword" },
+				{ "include": "#composite-identifier" },
+				{ "include": "#simple-identifier" },
+				{ "include": "#struct" }
+			]
+		},
+		"field-identifier-label": {
+			"patterns": [
+				{
+					"comment": "Field label, e.g.:  foo:",
+					"match": "((?:#|_#)?[_$[:alpha:]][_$[:alnum:]]*)([!?])?(:)",
+					"captures": {
+						"1": { "name": "entity.name.aontu" },
+						"2": {
+							"comment": "foo? means an optional field, foo! means a required field, foo means a regular field",
+							"name": "entity.name.aontu"
+						},
+						"3": {
+							"patterns": [
+								{ "include": "#punctuation"  }
+							]
+						}
+					}
+				}
+			]
+		},
+		"composite-identifier": {
+			"patterns": [
+				{
+					"comment": "composite identifier, e.g. math.logs.log2",
+					"name": "entity.name.aontu",
+					"match": "[_$[:alpha:]][_$[:alnum:]]*(?:\\.[_$[:alpha:]][_$[:alnum:]]*)+",
+					"captures": {
+						"1": {
+							"patterns": [
+								{ "include": "#composite-identifier" }
+							]
+						}
+					}
+				}
+			]
+		},
+		"simple-identifier": {
+			"patterns": [
+				{
+					"comment": "composite identifier, e.g. math.logs.log2",
+					"name": "entity.name.aontu",
+					"match": "(?:#|_#)?[_$[:alpha:]][_$[:alnum:]]*"
+				}
+			]
+		},
+		"invalid:expression-operator": {
+			"patterns": [
+				{
+					"comment": "For relational operators. This highlights cases when an expression relational operator is incorrect, e.g. <=<= or <<=<",
+					"name": "invalid.illegal",
+					"match": "<[<>!]+=*|>[<>!]+=*|={4,}[<=>!]*|(?:<=)[<=>!]+|(?:!=)[<=>!]|(?:>=)[<=>!]+"
+				}
+			]
+		},
+		"expression-operator": {
+			"patterns": [
+				{
+					"comment": "relational operators",
+					"name": "keyword.operator.aontu",
+					"match": "<=|>=|==|!=|<|>"
+				},
+				{
+					"comment": "regex operators",
+					"name": "keyword.operator.aontu",
+					"match": "=~|!~"
+				},
+				{
+					"comment": "constraints (e.g. &, |, *) and arithmetic operators (e.g. +, -, /, *)",
+					"name": "keyword.operator.aontu",
+					"match": "[&|*+-/]"
+				},
+				{
+					"comment": "boolean NOT-operator",
+					"name": "keyword.operator.aontu",
+					"match": "!"
+				},
+				{
+					"name": "keyword.operator.aontu",
+					"match": "="
+				}
+			]
+		},
+		"keyword": {
+			"patterns": [
+				{
+					"name": "keyword.control.literal.aontu",
+					"match": "\\b(import|null|true|false|if|else|for|in|let|package)\\b"
+				},
+				{
+					"name": "keyword.control.literal.aontu",
+					"match": "\\b(string|int|float|number|bool|bytes|list|struct)\\b"
+				}
+			]
+		},
+		"punctuation": {
+			"name": "punctuation.aontu",
+			"match": "[:,]"
+		},
+		"struct": {
+			"begin": "\\{",
+			"beginCaptures": {
+				"0": {
+					"name": "meta.struct.literal.aontu"
+				}
+			},
+			"end": "\\}",
+			"endCaptures": {
+				"0": {
+					"name": "meta.struct.literal.aontu"
+				}
+			},
+			"patterns": [
+				{ "include": "$self" }
+			]
+		},
+		"string": {
+			"patterns": [
+				{
+					"include": "#qstring-single"
+				},
+				{
+					"include": "#qstring-double"
+				}
+			]
+		},
+		"qstring-interpolation": {
+			"patterns": [
+				{
+					"match": "\\\\\\(([^\\)]*)\\)",
+					"captures": {
+						"1": {
+							"patterns": [
+								{ "include": "#composite-identifier" },
+								{ "include": "#simple-identifier" }
+							]
+						}
+					}
+				}
+			]
+		},
+		"qstring-double": {
+			"name": "string.quoted.double.aontu",
+			"begin": "\"",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.string.begin.aontu"
+				}
+			},
+			"end": "(\")|((?:[^\\\\\\n])$)",
+			"endCaptures": {
+				"1": {
+					"name": "punctuation.definition.string.end.aontu"
+				},
+				"2": {
+					"name": "invalid.illegal.newline.aontu"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#qstring-interpolation"
+				},
+				{
+					"include": "#string-character-escape"
+				}
+			]
+		},
+		"qstring-single": {
+			"name": "string.quoted.single.aontu",
+			"begin": "'",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.string.begin.aontu"
+				}
+			},
+			"end": "(\\')|((?:[^\\\\\\n])$)",
+			"endCaptures": {
+				"1": {
+					"name": "punctuation.definition.string.end.aontu"
+				},
+				"2": {
+					"name": "invalid.illegal.newline.aontu"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#qstring-interpolation"
+				},
+				{
+					"include": "#string-character-escape"
+				}
+			]
+		},
+		"string-character-escape": {
+			"name": "constant.character.escape.aontu",
+			"match": "\\\\(x[0-9A-Fa-f]{2}|u[0-9A-Fa-f]{4}|u\\{[0-9A-Fa-f]+\\}|[0-2][0-7]{0,2}|3[0-6][0-7]?|37[0-7]?|[4-7][0-7]?|.|$)"
+		},
+		"comments": {
+			"patterns": [
+				{
+					"begin": "(^[ \\t]+)?(//)",
+					"beginCaptures": {
+						"1": {
+							"name": "punctuation.whitespace.comment.leading.aontu"
+						},
+						"2": {
+							"name": "comment.line.double-slash.aontu"
+						}
+					},
+					"end": "(?=$)",
+					"contentName": "comment.line.double-slash.aontu"
+				}
+			]
+		},
+		"number": {
+			"patterns": [
+				{
+					"name": "constant.numeric.hex.aontu",
+					"match": "\\b(?<!\\$)0(?:x|X)[0-9a-fA-F][0-9a-fA-F_]*\\b(?!\\$)"
+				},
+				{
+					"name": "constant.numeric.binary.aontu",
+					"match": "\\b(?<!\\$)0(?:b|B)[01][01_]*\\b(?!\\$)"
+				},
+				{
+					"name": "constant.numeric.octal.aontu",
+					"match": "\\b(?<!\\$)0(?:o|O)?[0-7][0-7_]*\\b(?!\\$)"
+				},
+				{
+					"match": "(?x)\n(?<!\\$)(?:\n  (?:\\b[0-9][0-9_]*(\\.)[0-9][0-9_]*[eE][+-]?[0-9][0-9_]*\\b)| # 1.1E+3\n  (?:\\b[0-9][0-9_]*(\\.)[eE][+-]?[0-9][0-9_]*\\b)|             # 1.E+3\n  (?:\\B(\\.)[0-9][0-9_]*[eE][+-]?[0-9][0-9_]*\\b)|             # .1E+3\n  (?:\\b[0-9][0-9_]*[eE][+-]?[0-9][0-9_]*\\b)|                 # 1E+3\n  (?:\\b[0-9][0-9_]*(\\.)[0-9][0-9_]*\\b)|                      # 1.1\n  (?:\\b[0-9][0-9_]*(\\.)\\B)|                                  # 1.\n  (?:\\B(\\.)[0-9][0-9_]*\\b)|                                  # .1\n  (?:\\b[0-9][0-9_]*\\b(?!\\.))                                 # 1\n)(?!\\$)",
+					"captures": {
+						"0": {
+							"name": "constant.numeric.decimal.aontu"
+						},
+						"1": {
+							"name": "meta.delimiter.decimal.period.aontu"
+						},
+						"2": {
+							"name": "meta.delimiter.decimal.period.aontu"
+						},
+						"3": {
+							"name": "meta.delimiter.decimal.period.aontu"
+						},
+						"4": {
+							"name": "meta.delimiter.decimal.period.aontu"
+						},
+						"5": {
+							"name": "meta.delimiter.decimal.period.aontu"
+						},
+						"6": {
+							"name": "meta.delimiter.decimal.period.aontu"
+						}
+					}
+				}
+			]
+		}
+	}
+}
+
