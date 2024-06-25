@@ -163,7 +163,7 @@
 			]
 		},
 		"punctuation": {
-			"name": "punctuation.aontu",
+			"name": "punctuation.separator.aontu",
 			"match": "[:,]"
 		},
 		"struct": {
